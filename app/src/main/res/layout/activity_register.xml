@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#161925">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="24dp">
+
+        <ImageButton
+            android:id="@+id/btnVoltar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Voltar"
+            android:src="@drawable/baseline_arrow_back_ios_new_24"
+            app:tint="@android:color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/RegisterLogo"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="24dp"
+            android:contentDescription="Logo"
+            android:scaleType="centerCrop"
+            android:src="@drawable/iconapp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btnVoltar" />
+
+        <TextView
+            android:id="@+id/registerTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/montserratalternatesextrabold"
+            android:text="Crie sua conta"
+            android:textColor="@android:color/white"
+            android:textSize="26sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/RegisterLogo" />
+
+        <TextView
+            android:id="@+id/registerSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="@font/montserratalternatesmedium"
+            android:text="Preencha os dados abaixo"
+            android:textColor="#838383"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/registerTitle" />
+
+        <TextView
+            android:id="@+id/lblNome"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/montserratalternatesmedium"
+            android:text="Nome completo"
+            android:textColor="#BBBBBB"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/inputNome"
+            app:layout_constraintStart_toStartOf="@id/inputNome"
+            app:layout_constraintTop_toBottomOf="@id/registerSubtitle" />
+
+        <EditText
+            android:id="@+id/inputNome"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_campo"
+            android:fontFamily="@font/montserratalternatesmedium"
+            android:hint="Digite seu nome"
+            android:inputType="textPersonName"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="#838383"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblNome"
+            app:layout_constraintWidth_max="400dp" />
+
+        <TextView
+            android:id="@+id/lblEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/montserratalternatesmedium"
+            android:text="E-mail"
+            android:textColor="#BBBBBB"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/inputEmail"
+            app:layout_constraintStart_toStartOf="@id/inputEmail"
+            app:layout_constraintTop_toBottomOf="@id/inputNome" />
+
+        <EditText
+            android:id="@+id/inputEmail"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_campo"
+            android:fontFamily="@font/montserratalternatesmedium"
+            android:hint="Digite seu e-mail"
+            android:inputType="textEmailAddress"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="#838383"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@id/inputNome"
+            app:layout_constraintStart_toStartOf="@id/inputNome"
+            app:layout_constraintTop_toBottomOf="@id/lblEmail" />
+
+        <TextView
+            android:id="@+id/lblSenha"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/montserratalternatesmedium"
+            android:text="Senha"
+            android:textColor="#BBBBBB"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/inputSenha"
+            app:layout_constraintStart_toStartOf="@id/inputSenha"
+            app:layout_constraintTop_toBottomOf="@id/inputEmail" />
+
+        <EditText
+            android:id="@+id/inputSenha"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_campo"
+            android:fontFamily="@font/montserratalternatesmedium"
+            android:hint="Senha"
+            android:inputType="textPassword"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="#838383"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@id/inputEmail"
+            app:layout_constraintStart_toStartOf="@id/inputEmail"
+            app:layout_constraintTop_toBottomOf="@id/lblSenha" />
+
+        <TextView
+            android:id="@+id/lblConfirmarSenha"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/montserratalternatesmedium"
+            android:text="Confirmar senha"
+            android:textColor="#BBBBBB"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/inputConfirmarSenha"
+            app:layout_constraintStart_toStartOf="@id/inputConfirmarSenha"
+            app:layout_constraintTop_toBottomOf="@id/inputSenha" />
+
+        <EditText
+            android:id="@+id/inputConfirmarSenha"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_campo"
+            android:fontFamily="@font/montserratalternatesmedium"
+            android:hint="Digite a senha novamente"
+            android:inputType="textPassword"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="#838383"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@id/inputSenha"
+            app:layout_constraintStart_toStartOf="@id/inputSenha"
+            app:layout_constraintTop_toBottomOf="@id/lblConfirmarSenha" />
+
+        <Button
+            android:id="@+id/btnCadastrar"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="24dp"
+            android:backgroundTint="#9956F6"
+            android:fontFamily="@font/montserratalternatesextrabold"
+            android:text="Cadastrar"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:cornerRadius="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/inputConfirmarSenha"
+            app:layout_constraintStart_toStartOf="@id/inputConfirmarSenha"
+            app:layout_constraintTop_toBottomOf="@id/inputConfirmarSenha" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

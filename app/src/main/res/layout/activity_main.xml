@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="#161925">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="24dp">
+
+        <ImageView
+            android:id="@+id/LoginLogo"
+            android:layout_width="280dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="30dp"
+            android:contentDescription="Logo do app"
+            android:scaleType="centerCrop"
+            android:src="@drawable/iconapp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/AcesseSuaConta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:fontFamily="@font/montserratalternatesextrabold"
+            android:text="Acesse sua conta"
+            android:textColor="@android:color/white"
+            android:textSize="26sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/LoginLogo" />
+
+        <TextView
+            android:id="@+id/lblEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/montserratalternatesmedium"
+            android:text="E-mail"
+            android:textColor="#BBBBBB"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/inputEmail"
+            app:layout_constraintStart_toStartOf="@id/inputEmail"
+            app:layout_constraintTop_toBottomOf="@id/AcesseSuaConta" />
+
+        <EditText
+            android:id="@+id/inputEmail"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_campo"
+            android:fontFamily="@font/montserratalternatesmedium"
+            android:hint="Digite seu e-mail"
+            android:inputType="textEmailAddress"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="#838383"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/lblEmail"
+            app:layout_constraintWidth_max="400dp" />
+
+        <TextView
+            android:id="@+id/lblSenha"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/montserratalternatesmedium"
+            android:text="Senha"
+            android:textColor="#BBBBBB"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="@id/inputSenha"
+            app:layout_constraintStart_toStartOf="@id/inputSenha"
+            app:layout_constraintTop_toBottomOf="@id/inputEmail" />
+
+        <EditText
+            android:id="@+id/inputSenha"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_campo"
+            android:fontFamily="@font/montserratalternatesmedium"
+            android:hint="Digite sua senha"
+            android:inputType="textPassword"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="#838383"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="@id/inputEmail"
+            app:layout_constraintStart_toStartOf="@id/inputEmail"
+            app:layout_constraintTop_toBottomOf="@id/lblSenha" />
+
+        <Button
+            android:id="@+id/BtnLogin"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="32dp"
+            android:backgroundTint="#9956F6"
+            android:fontFamily="@font/montserratalternatesextrabold"
+            android:text="Acessar conta"
+            android:textSize="16sp"
+            android:textColor="@android:color/white"
+            app:cornerRadius="12dp"
+            app:layout_constraintEnd_toEndOf="@id/inputSenha"
+            app:layout_constraintStart_toStartOf="@id/inputSenha"
+            app:layout_constraintTop_toBottomOf="@id/inputSenha" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="32dp"
+            android:background="#2D3142"
+            app:layout_constraintEnd_toEndOf="@id/BtnLogin"
+            app:layout_constraintStart_toStartOf="@id/BtnLogin"
+            app:layout_constraintTop_toBottomOf="@id/BtnLogin" />
+
+        <TextView
+            android:id="@+id/tvOu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#161925"
+            android:fontFamily="@font/montserratalternatesmedium"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:text="ou"
+            android:textColor="#838383"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/divider"
+            app:layout_constraintEnd_toEndOf="@id/divider"
+            app:layout_constraintStart_toStartOf="@id/divider"
+            app:layout_constraintTop_toTopOf="@id/divider" />
+
+        <TextView
+            android:id="@+id/SupRegistrar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/montserratalternatesmedium"
+            android:text="Não tem conta?"
+            android:textColor="#838383"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider" />
+
+        <Button
+            android:id="@+id/BtnRegistrar"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="24dp"
+            android:backgroundTint="#2D3142"
+            android:fontFamily="@font/montserratalternatesextrabold"
+            android:text="Registre-se"
+            android:textColor="@android:color/white"
+            android:textSize="16sp"
+            app:cornerRadius="12dp"
+            app:strokeColor="#9956F6"
+            app:strokeWidth="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/BtnLogin"
+            app:layout_constraintStart_toStartOf="@id/BtnLogin"
+            app:layout_constraintTop_toBottomOf="@id/SupRegistrar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

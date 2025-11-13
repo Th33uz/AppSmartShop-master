@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#161925"
+    android:padding="16dp"
+    tools:context=".ui.edititem.EditItemActivity">
+
+    <!-- Botão Voltar -->
+    <ImageButton
+        android:id="@+id/btnVoltar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@drawable/baseline_arrow_back_ios_new_24"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="Voltar"
+        app:tint="@android:color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/txtTituloEditItem"
+        app:layout_constraintBottom_toBottomOf="@id/txtTituloEditItem" />
+
+    <TextView
+        android:id="@+id/txtTituloEditItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Editar Item"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:fontFamily="@font/montserratalternatesextrabold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnVoltar"
+        android:layout_marginTop="25dp"
+        android:layout_marginStart="16dp"/>
+
+    <!-- Nome do Item -->
+    <TextView
+        android:id="@+id/lblNome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nome do Item"
+        android:textColor="#BBBBBB"
+        android:textSize="14sp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/txtTituloEditItem"
+        app:layout_constraintStart_toStartOf="@id/inputNomeItem"/>
+
+    <EditText
+        android:id="@+id/inputNomeItem"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:hint="Nome do item"
+        android:background="@drawable/bg_campo"
+        android:textColor="@android:color/white"
+        android:textColorHint="#838383"
+        android:padding="12dp"
+        app:layout_constraintTop_toBottomOf="@id/lblNome"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Quantidade -->
+    <TextView
+        android:id="@+id/lblQtditem"
+        android:text="Quantidade"
+        android:textSize="14sp"
+        android:textColor="#BBBBBB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="@+id/inputQuantidade"
+        app:layout_constraintTop_toBottomOf="@id/inputNomeItem"
+        app:layout_constraintBottom_toTopOf="@+id/inputQuantidade"
+        />
+
+    <EditText
+        android:id="@+id/inputQuantidade"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:hint="Quantidade"
+        android:inputType="number"
+        android:background="@drawable/bg_campo"
+        android:textColor="@android:color/white"
+        android:textColorHint="#838383"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/lblQtditem"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/spinnerUnidade"
+        android:layout_marginEnd="8dp"
+        />
+
+    <!-- Unidade -->
+    <TextView
+        android:id="@+id/lblSpnrQtd"
+        android:text="Unidade"
+        android:textSize="14sp"
+        android:textColor="#BBBBBB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="@+id/spinnerUnidade"
+        app:layout_constraintTop_toTopOf="@id/lblQtditem"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerUnidade"
+        />
+
+    <Spinner
+        android:id="@+id/spinnerUnidade"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/bg_campo"
+        app:layout_constraintTop_toTopOf="@id/inputQuantidade"
+        app:layout_constraintStart_toEndOf="@id/inputQuantidade"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- Categoria -->
+    <TextView
+        android:id="@+id/lblCatItem"
+        android:text="Categoria"
+        android:textSize="14sp"
+        android:textColor="#BBBBBB"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        app:layout_constraintStart_toStartOf="@+id/spinnerCategoria"
+        app:layout_constraintTop_toBottomOf="@id/inputQuantidade"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerCategoria"
+        />
+    <Spinner
+        android:id="@+id/spinnerCategoria"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/bg_campo"
+        android:padding="8dp"
+        app:layout_constraintTop_toBottomOf="@id/lblCatItem"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/btnSalvar"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="Salvar Alterações"
+        android:textSize="16sp"
+        android:fontFamily="@font/montserratalternatesextrabold"
+        android:backgroundTint="#9956F6"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="32dp"
+        app:layout_constraintTop_toBottomOf="@id/spinnerCategoria"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/btnExcluir"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:text="Excluir Item"
+        android:textSize="16sp"
+        android:fontFamily="@font/montserratalternatesextrabold"
+        android:backgroundTint="#E53935"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/btnSalvar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
