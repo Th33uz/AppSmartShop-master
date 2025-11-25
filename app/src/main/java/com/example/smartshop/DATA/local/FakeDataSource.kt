@@ -25,7 +25,6 @@ class FakeDataSource {
         return user != null
     }
 
-
     fun logout() { _userLogged.value = null }
 
 
