@@ -15,9 +15,7 @@ class AddListaActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddListaBinding
     private var imagemSelecionada: Uri? = null
 
-    private val vm: AddListaViewModel by viewModels {
-        AddListaViewModelFactory(ServiceLocator.repository)
-    }
+    val viewModel: AddListaViewModel by viewModels { AddListaViewModelFactory(ServiceLocator.provideRepository()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +36,7 @@ class AddListaActivity : AppCompatActivity() {
             if (nomeLista.isEmpty()) {
                 Toast.makeText(this, "Digite o nome da lista", Toast.LENGTH_SHORT).show(); return@setOnClickListener
             }
-            vm.addLista(nomeLista, imagemSelecionada?.toString())
+            viewModel.addLista(nomeLista, imagemSelecionada?.toString())
             Toast.makeText(this, "Lista adicionada!", Toast.LENGTH_SHORT).show()
             finish()
         }

@@ -19,9 +19,7 @@ import kotlinx.coroutines.launch
 class EditListaActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditListaBinding
-    private val vm: EditListaViewModel by viewModels {
-        EditListaViewModelFactory(ServiceLocator.repository)
-    }
+    val viewModel: EditListaViewModel by viewModels { EditListaViewModelFactory(ServiceLocator.provideRepository()) }
 
     private var currentList: Lista? = null
     private var imagemSelecionada: Uri? = null
@@ -39,7 +37,7 @@ class EditListaActivity : AppCompatActivity() {
             return
         }
 
-        vm.loadLista(listTitle)
+        viewModel.loadLista(listTitle)
 
         binding.btnVoltar.setOnClickListener {
             finish()
@@ -58,8 +56,8 @@ class EditListaActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // CORREÇÃO: Chamando a função 'updateLista' (em vez de 'renameLista')
-            vm.updateLista(listaParaSalvar.titulo, novoTitulo, imagemSelecionada?.toString())
+
+            viewModel.updateLista(listaParaSalvar.titulo, novoTitulo, imagemSelecionada?.toString())
             Toast.makeText(this, "Lista Salva!", Toast.LENGTH_SHORT).show()
         }
 
@@ -75,8 +73,8 @@ class EditListaActivity : AppCompatActivity() {
                 .setMessage("Tem certeza que deseja excluir a lista \"${listaParaExcluir.titulo}\"? Isso apagará todos os itens.")
                 .setNegativeButton("Cancelar", null)
                 .setPositiveButton("Excluir") { _, _ ->
-                    // Chama a função 'removeLista' correta
-                    vm.removeLista(listaParaExcluir.titulo)
+
+                    viewModel.removeLista(listaParaExcluir.titulo)
                     Toast.makeText(this, "Lista excluída", Toast.LENGTH_SHORT).show()
                 }
                 .show()
@@ -88,7 +86,7 @@ class EditListaActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            vm.lista.collectLatest { lista ->
+            viewModel.lista.collectLatest { lista ->
                 if (lista != null) {
                     currentList = lista
                     binding.inputNomeLista.setText(lista.titulo)
@@ -105,7 +103,7 @@ class EditListaActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            vm.eventoConcluido.collectLatest { concluido ->
+            viewModel.eventoConcluido.collectLatest { concluido ->
                 if (concluido) {
                     finish()
                 }

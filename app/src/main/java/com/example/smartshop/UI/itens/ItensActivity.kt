@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
@@ -24,9 +23,7 @@ class ItensActivity : AppCompatActivity() {
     private lateinit var binding: ActivityItensBinding
     private lateinit var adapter: ItemAdapter
 
-    private val vm: ItensViewModel by viewModels {
-        ItensViewModelFactory(ServiceLocator.repository)
-    }
+    val viewModel: ItensViewModel by viewModels { ItensViewModelFactory(ServiceLocator.provideRepository()) }
 
     private lateinit var tituloLista: String
 
@@ -35,13 +32,16 @@ class ItensActivity : AppCompatActivity() {
         binding = ActivityItensBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        tituloLista = intent.getStringExtra("titulolista") ?: run { finish(); return }
+        tituloLista = intent.getStringExtra("titulolista") ?: run {
+            finish()
+            return
+        }
 
         adapter = ItemAdapter(
             onItemCheck = { item, isChecked ->
-                vm.toggleItemChecked(item, isChecked)
+                viewModel.toggleItemChecked(item, isChecked)
             },
-            onLongAction = { item ->
+            onItemClick = { item ->
                 val intent = Intent(this, EditItemActivity::class.java)
                 intent.putExtra("LIST_TITLE", tituloLista)
                 intent.putExtra("ITEM_NAME", item.nome)
@@ -55,7 +55,7 @@ class ItensActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                vm.lista.collectLatest { lista ->
+                viewModel.lista.collectLatest { lista ->
                     binding.txtTituloLista.text = lista?.titulo ?: ""
                     adapter.updateList(lista?.itens ?: emptyList())
                 }
@@ -69,20 +69,26 @@ class ItensActivity : AppCompatActivity() {
         setupSearch()
 
         binding.fabAddItem.setOnClickListener {
-            startActivity(Intent(this, AddItemActivity::class.java).putExtra("titulolista", tituloLista))
+            startActivity(
+                Intent(this, AddItemActivity::class.java)
+                    .putExtra("titulolista", tituloLista)
+            )
         }
     }
 
     override fun onResume() {
         super.onResume()
-        vm.load(tituloLista)
+        viewModel.load(tituloLista)
     }
+
     private fun setupSearch() {
         binding.inputBuscarItens.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                vm.filterItems(s.toString())
+                viewModel.filterItems(s.toString())
             }
+
             override fun afterTextChanged(s: Editable?) {}
         })
     }

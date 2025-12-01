@@ -4,8 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -18,15 +21,15 @@ import com.example.smartshop.ui.editlista.EditListaActivity
 import com.example.smartshop.ui.main.MainActivity
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import com.example.smartshop.R
 
 class HomeActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityHomeBinding
-    private lateinit var adapter: ListaAdapter
 
-    private val vm: HomeViewModel by viewModels {
-        HomeViewModelFactory(ServiceLocator.repository)
-    }
+    lateinit var binding: ActivityHomeBinding
+    lateinit var adapter: ListaAdapter
+
+    val viewModel: HomeViewModel by viewModels { HomeViewModelFactory(ServiceLocator.provideRepository()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,7 +50,7 @@ class HomeActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                vm.listas.collectLatest { listas ->
+                viewModel.listas.collectLatest { listas ->
                     adapter.updateList(listas)
                 }
             }
@@ -60,7 +63,7 @@ class HomeActivity : AppCompatActivity() {
         }
 
         binding.BtnLogout.setOnClickListener {
-            vm.logout()
+            viewModel.logout()
             val i = Intent(this, MainActivity::class.java)
             i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(i)
@@ -72,7 +75,7 @@ class HomeActivity : AppCompatActivity() {
         binding.inputBuscar.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                vm.filterLists(s.toString())
+                viewModel.filterLists(s.toString())
             }
             override fun afterTextChanged(s: Editable?) {}
         })
@@ -80,6 +83,7 @@ class HomeActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        vm.load()
+        viewModel.load()
     }
+
 }

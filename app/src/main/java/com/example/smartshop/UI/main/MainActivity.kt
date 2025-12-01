@@ -11,16 +11,14 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.smartshop.databinding.ActivityMainBinding
 import com.example.smartshop.di.ServiceLocator
 import com.example.smartshop.ui.home.HomeActivity
-import com.example.smartshop.ui.register.RegisterActivity
+import com.example.smartshop.ui.register.RegisterActivity  // ✅ CORRETO (ui minúsculo)
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val vm: MainViewModel by viewModels {
-        MainViewModelFactory(ServiceLocator.repository)
-    }
+    private val viewModel: MainViewModel by viewModels { MainViewModelFactory(ServiceLocator.provideRepository()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +32,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupObservers() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                vm.loginState.collectLatest { isLoggedIn ->
+                viewModel.loginState.collectLatest { isLoggedIn ->
                     when (isLoggedIn) {
                         true -> {
                             startActivity(Intent(this@MainActivity, HomeActivity::class.java))
@@ -42,7 +40,7 @@ class MainActivity : AppCompatActivity() {
                         }
                         false -> {
                             Toast.makeText(this@MainActivity, "E-mail ou senha incorretos", Toast.LENGTH_SHORT).show()
-                            vm.resetLoginState()
+                            viewModel.resetLoginState()
                         }
                         null -> { /* Estado inicial */ }
                     }
@@ -57,7 +55,7 @@ class MainActivity : AppCompatActivity() {
             val senha = binding.inputSenha.text.toString().trim()
 
             if (email.isNotBlank() && senha.isNotBlank()) {
-                vm.tryLogin(email, senha)
+                viewModel.tryLogin(email, senha)
             } else {
                 Toast.makeText(this, "Preencha todos os campos", Toast.LENGTH_SHORT).show()
             }

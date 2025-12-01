@@ -17,9 +17,7 @@ import kotlinx.coroutines.launch
 class EditItemActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditItemBinding
-    private val vm: EditItemViewModel by viewModels {
-        EditItemViewModelFactory(ServiceLocator.repository)
-    }
+    val viewModel: EditItemViewModel by viewModels { EditItemViewModelFactory(ServiceLocator.provideRepository()) }
 
     private var currentItem: Item? = null
 
@@ -49,7 +47,7 @@ class EditItemActivity : AppCompatActivity() {
         categoriaAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item_white)
         binding.spinnerCategoria.adapter = categoriaAdapter
 
-        vm.loadItem(listTitle, itemName, itemCategory)
+        viewModel.loadItem(listTitle, itemName, itemCategory)
 
         binding.btnVoltar.setOnClickListener {
             finish()
@@ -72,7 +70,7 @@ class EditItemActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            vm.updateItem(itemParaSalvar, novoNome, novaQtd, novaUnidade, novaCategoria)
+            viewModel.updateItem(itemParaSalvar, novoNome, novaQtd, novaUnidade, novaCategoria)
             Toast.makeText(this, "Item salvo!", Toast.LENGTH_SHORT).show()
         }
 
@@ -88,20 +86,20 @@ class EditItemActivity : AppCompatActivity() {
                 .setMessage("Tem certeza que deseja excluir o item \"${itemParaExcluir.nome}\"?")
                 .setNegativeButton("Cancelar", null)
                 .setPositiveButton("Excluir") { _, _ ->
-                    vm.removeItem(itemParaExcluir)
+                    viewModel.removeItem(itemParaExcluir)
                     Toast.makeText(this, "Item excluído", Toast.LENGTH_SHORT).show()
                 }
                 .show()
         }
 
         lifecycleScope.launch {
-            vm.item.collectLatest { item ->
+            viewModel.item.collectLatest { item ->
                 if (item != null) {
                     currentItem = item
                     binding.inputNomeItem.setText(item.nome)
                     binding.inputQuantidade.setText(item.quantidade.toString())
 
-                    // Seleciona o item correto nos Spinners
+
                     val unidadeIndex = unidades.indexOf(item.unidade).coerceAtLeast(0)
                     binding.spinnerUnidade.setSelection(unidadeIndex)
 
@@ -112,7 +110,7 @@ class EditItemActivity : AppCompatActivity() {
         }
 
         lifecycleScope.launch {
-            vm.eventoConcluido.collectLatest { concluido ->
+            viewModel.eventoConcluido.collectLatest { concluido ->
                 if (concluido) {
                     finish()
                 }

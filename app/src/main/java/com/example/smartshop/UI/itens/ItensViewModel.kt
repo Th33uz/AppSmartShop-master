@@ -1,12 +1,14 @@
 package com.example.smartshop.ui.itens
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.smartshop.data.model.Item
 import com.example.smartshop.data.model.Lista
 import com.example.smartshop.data.repository.ShoppingRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import java.text.Collator
 import java.util.Comparator
 import java.util.Locale
@@ -29,10 +31,12 @@ class ItensViewModel(private val repo: ShoppingRepository) : ViewModel() {
     )
 
     fun load(title: String) {
-        currentTitle = title
-        val currentList = repo.getListaByTitle(title)
-        allItems = currentList?.itens ?: mutableListOf()
-        _sortAndPublish(allItems)
+        viewModelScope.launch {
+            currentTitle = title
+            val currentList = repo.getListaByTitle(title)
+            allItems = currentList?.itens ?: mutableListOf()
+            _sortAndPublish(allItems)
+        }
     }
 
     private fun catRank(cat: String): Int {
@@ -47,10 +51,11 @@ class ItensViewModel(private val repo: ShoppingRepository) : ViewModel() {
                 .then(Comparator { a, b ->
                     collator.compare(a.nome, b.nome)
                 })
-
         val sortedList = listToPublish.sortedWith(comparator)
-
-        _lista.value = repo.getListaByTitle(currentTitle)?.copy(
+        _lista.value = Lista(
+            titulo = currentTitle,
+            dono = "",
+            imagemUri = null,
             itens = sortedList.toMutableList()
         )
     }
@@ -68,23 +73,24 @@ class ItensViewModel(private val repo: ShoppingRepository) : ViewModel() {
     }
 
     fun toggleItemChecked(item: Item, isChecked: Boolean) {
-        val foundItem = allItems.find { it.nome == item.nome && it.categoria == item.categoria }
-        foundItem?.comprado = isChecked
-        filterItems(currentQuery)
+        viewModelScope.launch {
+            repo.toggleItemComprado(currentTitle, item, isChecked)
+            load(currentTitle)
+        }
     }
 
     fun removeItem(item: Item) {
-        allItems.remove(item)
-        repo.getListaByTitle(currentTitle)?.itens?.remove(item)
-        filterItems(currentQuery)
+        viewModelScope.launch {
+            repo.removeItem(currentTitle, item)
+            load(currentTitle)
+        }
     }
 
     fun renameItem(itemAntigo: Item, nomeNovo: String, qtdNova: Int) {
-        val foundItem = allItems.find { it == itemAntigo }
-        foundItem?.apply {
-            nome = nomeNovo
-            quantidade = qtdNova
+        viewModelScope.launch {
+            val newItem = itemAntigo.copy(nome = nomeNovo, quantidade = qtdNova)
+            repo.updateItem(currentTitle, itemAntigo, newItem)
+            load(currentTitle)
         }
-        filterItems(currentQuery)
     }
 }

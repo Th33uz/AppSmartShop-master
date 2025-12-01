@@ -15,9 +15,7 @@ class AddItemActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddItemBinding
     private lateinit var tituloLista: String
 
-    private val vm: AddItemViewModel by viewModels {
-        AddItemViewModelFactory(ServiceLocator.repository)
-    }
+    val viewModel: AddItemViewModel by viewModels { AddItemViewModelFactory(ServiceLocator.provideRepository()) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,7 +48,7 @@ class AddItemActivity : AppCompatActivity() {
             if (quantidade == null) { Toast.makeText(this, "Quantidade inválida", Toast.LENGTH_SHORT).show(); return@setOnClickListener }
 
             val novoItem = Item(nome = nome, quantidade = quantidade, unidade = unidade, categoria = categoria)
-            vm.addItem(tituloLista, novoItem)
+            viewModel.addItem(tituloLista, novoItem)
             Toast.makeText(this, "Item adicionado!", Toast.LENGTH_SHORT).show()
             finish()
         }

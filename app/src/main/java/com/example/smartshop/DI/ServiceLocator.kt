@@ -1,15 +1,14 @@
 package com.example.smartshop.di
 
-
-import com.example.smartshop.data.local.FakeDataSource
 import com.example.smartshop.data.repository.ShoppingRepository
-
+import com.example.smartshop.data.remote.FirebaseDataSource
 
 object ServiceLocator {
-    private val dataSource: FakeDataSource by lazy { FakeDataSource() }
+    private var repository: ShoppingRepository? = null
 
-
-    val repository: ShoppingRepository by lazy {
-        ShoppingRepository(dataSource)
+    fun provideRepository(): ShoppingRepository {
+        return repository ?: ShoppingRepository(FirebaseDataSource()).also {
+            repository = it
+        }
     }
 }

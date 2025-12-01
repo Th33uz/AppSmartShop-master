@@ -1,10 +1,12 @@
 package com.example.smartshop.ui.main
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.smartshop.data.repository.ShoppingRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 class MainViewModel(private val repo: ShoppingRepository) : ViewModel() {
 
@@ -12,7 +14,10 @@ class MainViewModel(private val repo: ShoppingRepository) : ViewModel() {
     val loginState: StateFlow<Boolean?> = _loginState.asStateFlow()
 
     fun tryLogin(email: String, senha: String) {
-        _loginState.value = repo.login(email, senha)
+        viewModelScope.launch {
+            val ok = repo.login(email, senha)
+            _loginState.value = ok
+        }
     }
 
     fun resetLoginState() {
