@@ -13,8 +13,10 @@ import com.example.smartshop.R
 import com.example.smartshop.databinding.ActivityEditListaBinding
 import com.example.smartshop.di.ServiceLocator
 import com.example.smartshop.data.model.Lista
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.UUID
 
 class EditListaActivity : AppCompatActivity() {
 
@@ -22,7 +24,8 @@ class EditListaActivity : AppCompatActivity() {
     val viewModel: EditListaViewModel by viewModels { EditListaViewModelFactory(ServiceLocator.provideRepository()) }
 
     private var currentList: Lista? = null
-    private var imagemSelecionada: Uri? = null
+    private var novaImagemUri: Uri? = null
+    private val storage = FirebaseStorage.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,9 +59,12 @@ class EditListaActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-
-            viewModel.updateLista(listaParaSalvar.titulo, novoTitulo, imagemSelecionada?.toString())
-            Toast.makeText(this, "Lista Salva!", Toast.LENGTH_SHORT).show()
+            if (novaImagemUri != null) {
+                uploadImagemEAtualizarLista(listaParaSalvar.titulo, novoTitulo, novaImagemUri!!)
+            } else {
+                viewModel.updateLista(listaParaSalvar.titulo, novoTitulo, listaParaSalvar.imagemUri)
+                Toast.makeText(this, "Lista Salva!", Toast.LENGTH_SHORT).show()
+            }
         }
 
         binding.btnExcluir.setOnClickListener {
@@ -73,7 +79,6 @@ class EditListaActivity : AppCompatActivity() {
                 .setMessage("Tem certeza que deseja excluir a lista \"${listaParaExcluir.titulo}\"? Isso apagará todos os itens.")
                 .setNegativeButton("Cancelar", null)
                 .setPositiveButton("Excluir") { _, _ ->
-
                     viewModel.removeLista(listaParaExcluir.titulo)
                     Toast.makeText(this, "Lista excluída", Toast.LENGTH_SHORT).show()
                 }
@@ -91,12 +96,13 @@ class EditListaActivity : AppCompatActivity() {
                     currentList = lista
                     binding.inputNomeLista.setText(lista.titulo)
                     if (!lista.imagemUri.isNullOrEmpty()) {
-                        val uri = Uri.parse(lista.imagemUri)
-                        imagemSelecionada = uri
-                        binding.imgPreviewLista.setImageURI(uri)
+                        com.bumptech.glide.Glide.with(this@EditListaActivity)
+                            .load(lista.imagemUri)
+                            .placeholder(R.drawable.iconeimg)
+                            .error(R.drawable.iconeimg)
+                            .into(binding.imgPreviewLista)
                     } else {
                         binding.imgPreviewLista.setImageResource(R.drawable.iconeimg)
-                        imagemSelecionada = null
                     }
                 }
             }
@@ -111,12 +117,33 @@ class EditListaActivity : AppCompatActivity() {
         }
     }
 
+    private fun uploadImagemEAtualizarLista(tituloAntigo: String, novoTitulo: String, imageUri: Uri) {
+        binding.btnSalvar.isEnabled = false
+        Toast.makeText(this, "Enviando imagem...", Toast.LENGTH_SHORT).show()
+
+        val nomeArquivo = "listas/${UUID.randomUUID()}.jpg"
+        val storageRef = storage.reference.child(nomeArquivo)
+
+        storageRef.putFile(imageUri)
+            .addOnSuccessListener {
+                storageRef.downloadUrl.addOnSuccessListener { downloadUrl ->
+                    val imageUrl = downloadUrl.toString()
+                    viewModel.updateLista(tituloAntigo, novoTitulo, imageUrl)
+                    Toast.makeText(this, "Lista atualizada!", Toast.LENGTH_SHORT).show()
+                }
+            }
+            .addOnFailureListener { exception ->
+                binding.btnSalvar.isEnabled = true
+                Toast.makeText(this, "Erro ao enviar imagem: ${exception.message}", Toast.LENGTH_LONG).show()
+            }
+    }
+
     @Deprecated("Deprecated")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
-            imagemSelecionada = data?.data
-            binding.imgPreviewLista.setImageURI(imagemSelecionada)
+            novaImagemUri = data?.data
+            binding.imgPreviewLista.setImageURI(novaImagemUri)
         }
     }
 }

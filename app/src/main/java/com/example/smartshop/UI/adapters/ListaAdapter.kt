@@ -5,6 +5,7 @@ import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.smartshop.R
 import com.example.smartshop.databinding.ItemListaBinding
 import com.example.smartshop.data.model.Lista
@@ -23,10 +24,17 @@ class ListaAdapter(
             val b = binding
 
             b.txtNomeLista.text = lista.titulo
+
             if (!lista.imagemUri.isNullOrEmpty()) {
-                b.imgLista.setImageURI(Uri.parse(lista.imagemUri))
+                Glide.with(b.root.context)
+                    .load(Uri.parse(lista.imagemUri))
+                    .placeholder(R.drawable.iconeimg)
+                    .error(R.drawable.iconeimg)
+                    .centerCrop()
+                    .override(300, 300)
+                    .into(b.imgLista)
             } else {
-                b.imgLista.setImageResource(R.drawable.iconeimg) // Use 'R' importado
+                b.imgLista.setImageResource(R.drawable.iconeimg)
             }
 
             b.root.setOnClickListener {
@@ -36,7 +44,6 @@ class ListaAdapter(
                         .putExtra("titulolista", lista.titulo)
                 )
             }
-
 
             b.root.setOnLongClickListener {
                 onItemLongClick(lista)
