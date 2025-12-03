@@ -41,7 +41,6 @@ class AddListaActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // ✅ Se tem imagem, faz upload primeiro
             if (imagemSelecionada != null) {
                 uploadImagemEAdicionarLista(nomeLista, imagemSelecionada!!)
             } else {

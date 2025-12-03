@@ -20,8 +20,6 @@ class FirebaseDataSource {
     private val _userLogged = MutableStateFlow<User?>(null)
     val userLogged: StateFlow<User?> = _userLogged.asStateFlow()
 
-    // ============ AUTENTICAÇÃO ============
-
     suspend fun register(user: User): Boolean = try {
         Log.d("FirebaseDataSource", "Tentando registrar: ${user.email}")
 
@@ -72,8 +70,6 @@ class FirebaseDataSource {
 
     fun currentUser(): User? = _userLogged.value
 
-    // ============ LISTAS ============
-    // ... resto do código permanece igual
 
     suspend fun getAllListas(): List<Lista> = try {
         val currentEmail = auth.currentUser?.email ?: return emptyList()
@@ -183,8 +179,6 @@ class FirebaseDataSource {
         e.printStackTrace()
         false
     }
-
-    // ============ ITENS ============
 
     suspend fun addItemToLista(listaTitle: String, item: Item): Boolean = try {
         val currentEmail = auth.currentUser?.email ?: return false
